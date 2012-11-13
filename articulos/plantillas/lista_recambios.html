@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de recambios{% endblock %}
+{% block description %}{% endblock %}
+
+{% block principal %}
+<h1>Lista de recambios</h1>
+{% if lista_recambios %}
+	<table border="1" cellpadding="5">
+		<thead>
+			<tr>
+				<th width="200px">Nombre</th>
+				<th width="200px">Familia</th>
+				<th width="80px">Precio</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for recambio in lista_recambios %}
+				<tr>
+					<td>{{recambio.nombre}}</td>
+					<td>{{recambio.familia}}</td>
+					<td>{{recambio.precio}} €</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<p>{% with total=lista_recambios|length %}Mostrando {{total}} recambio{{total|pluralize}} ({{lista_recambios.count}} en total){% endwith %}</p>
+{% else %}
+	Todavía no hay recambios registrados.
+{% endif %}
+{% endblock %}

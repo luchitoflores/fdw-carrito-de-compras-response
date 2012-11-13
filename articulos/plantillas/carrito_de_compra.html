@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Carrito de compra{% endblock %}
+{% block description %}{% endblock %}
+
+{% block principal %}
+<h1>Carrito de compra</h1>
+{% if formset %}
+	<form method="post" action="">
+		{% csrf_token %}
+		<table border="1" cellpadding="5">
+			<thead>
+				<tr>
+					<th width="226px">Nombre</th>
+					<th width="80px">Precio</th>
+					<th width="80px">Unidades</th>
+					<th width="80px">Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+                {{ formset.management_form }}
+				{% for recambio in formset %}
+					<tr>
+						<td>{{ recambio.recambio.value }} {{recambio.recambio.as_hidden}} </td>
+						<td>{{ recambio.precio.value }} {{ recambio.precio.as_hidden}} €</td>
+						<td>{{recambio.unidades}}</td>
+						<td><a href="/carrito-de-compra/{{ recambio.fields.id.initial }}/">X</a></td>
+                        {{ recambio.user.as_hidden }}
+                        {{ recambio.id }}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<input type="submit" value="Actualizar unidades" style="margin: 6px 0 0 397px"/>
+	</form>
+	<p>{% with total=formset|length %}Mostrando {{total}} recambio{{total|pluralize}} ({{formset.count}} en total){% endwith %}</p>
+{% else %}
+	Todavía no hay recambios registrados en el carrito de compra.
+{% endif %}
+{% endblock %}
